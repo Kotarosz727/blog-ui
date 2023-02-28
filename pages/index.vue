@@ -1,5 +1,5 @@
 <template>
-  <ul>
+  <ul class="text-3xl font-bold underline">
     <li v-for="user in users" :key="user.id">
       {{ user.name }}
     </li>
