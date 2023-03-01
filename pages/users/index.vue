@@ -8,7 +8,7 @@
 
 
 <script setup lang="ts">
-import { useUserRepository } from "../repository/user_repository";
+import { useUserRepository } from "../../repository/user_repository";
 const { index } = useUserRepository();
 
 const users = await index();

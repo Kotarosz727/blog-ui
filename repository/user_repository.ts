@@ -23,9 +23,11 @@ export const useUserRepository = <T extends User>(): Repository<T> => {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(payload)
         });
-        if (!response.ok) {
-            throw new Error('create error.');
+
+        if(!response.ok) {
+            console.error(response);
         }
+
         const createdUser = await response.json();
         return createdUser as T;
     }
