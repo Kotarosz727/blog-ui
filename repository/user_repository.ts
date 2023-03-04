@@ -23,7 +23,9 @@ export const useUserRepository = <T extends User>(): Repository<T> => {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(payload)
         });
-
+        if (response.status >= 500) {
+            throw new Error(response.statusText);
+        }
         const createdUser = await response.json();
         return createdUser as User;
     }

@@ -53,6 +53,9 @@
         </li>
       </ul>
     </div>
+    <div v-if="success">
+      <p class="text-green-500 bg-blue-600">User created successfully!</p>
+    </div>
   </div>
 </template>
 
@@ -61,7 +64,7 @@ import { ref, reactive } from "vue";
 import { is400ErrorResponse, HttpResponse } from "../../repository/repository";
 import { User, useUserRepository } from "../../repository/user_repository";
 const { create: createUser } = useUserRepository();
-
+const success = ref<boolean>(false);
 const user = reactive<Omit<User, 'id'>>({
   name: "",
   age: 10,
@@ -77,8 +80,9 @@ const submitUser = async () => {
       errors.value = res.message;
     }
 
+    success.value = true;
   } catch (e) {
-    console.error('error', e.status);
+    console.error('error', e);
   }
 };
 </script>
