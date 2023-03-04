@@ -17,19 +17,15 @@ export const useUserRepository = <T extends User>(): Repository<T> => {
         return users as T[];
     };
 
-    const create = async (payload: T): Promise<T> => {
+    const create = async (payload: User): Promise<User> => {
         const response = await fetch((url), {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(payload)
         });
 
-        if(!response.ok) {
-            console.error(response);
-        }
-
         const createdUser = await response.json();
-        return createdUser as T;
+        return createdUser as User;
     }
 
     const show = async (id: Id): Promise<T> => {
@@ -62,7 +58,7 @@ export const useUserRepository = <T extends User>(): Repository<T> => {
         if (!response.ok) {
             throw new Error('delete error.');
         }
-        return response as HttpResponse;
+        return response as unknown as HttpResponse;
     }
 
     return {

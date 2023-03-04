@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center">
-    <form class="w-full md:w-1/2 lg:w-1/3 p-4 rounded-lg shadow-md bg-white">
+    <form class="w-full md:w-1/2 lg:w-1/3 p-4 rounded-lg shadow-md bg-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
       <h2 class="text-lg font-semibold mb-4">Create User</h2>
       <div class="mb-4">
         <label class="block text-gray-700 font-bold mb-2" for="name">
@@ -46,11 +46,19 @@
         Create User
       </button>
     </form>
+    <div v-if="errors.length > 0">
+      <ul class="text-red-500">
+        <li v-for="error in errors" :key="error">
+          {{ error }}
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue";
+import { ref, reactive } from "vue";
+import { is400ErrorResponse, HttpResponse } from "../../repository/repository";
 import { User, useUserRepository } from "../../repository/user_repository";
 const { create: createUser } = useUserRepository();
 
@@ -59,11 +67,18 @@ const user = reactive<Omit<User, 'id'>>({
   age: 10,
   phoneNumber: "",
 });
+const errors = ref<string[]>([]);
 const submitUser = async () => {
   try {
-    const res = await createUser(user as User);
+    const userResponse = await createUser(user as User);
+    const res = userResponse as HttpResponse;
+
+    if (is400ErrorResponse(res)) {
+      errors.value = res.message;
+    }
+
   } catch (e) {
-    console.error(e);
+    console.error('error', e.status);
   }
 };
 </script>
