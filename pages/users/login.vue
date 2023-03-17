@@ -39,7 +39,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import FlashMessage from "../components/FlashMessage.vue";
+import FlashMessage from "../../components/FlashMessage.vue";
 import {ref} from "vue";
 import {UserCredentials, useAuthRepository} from "../../repository/auth_repository";
 import {HttpResponse, is400ErrorResponse} from "../../repository/repository";

@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-center">
     <FlashMessage :messages="errors" type="error" />
-    <FlashMessage v-if="success" :messages="['User logged in successfully!']" type="success" />
+    <FlashMessage v-if="success" :messages="['User created in successfully!']" type="success" />
     <form class="w-full md:w-1/2 lg:w-1/3 p-4 rounded-lg shadow-md bg-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
       <h2 class="text-lg font-semibold mb-4">Create User</h2>
       <div class="mb-4">
@@ -64,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import FlashMessage from "../components/FlashMessage.vue";
+import FlashMessage from "../../components/FlashMessage.vue";
 import { ref, reactive } from "vue";
 import { is400ErrorResponse, HttpResponse } from "../../repository/repository";
 import { User } from "../../repository/user_repository";
