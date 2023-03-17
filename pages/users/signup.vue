@@ -1,5 +1,7 @@
 <template>
   <div class="flex justify-center">
+    <FlashMessage :messages="errors" type="error" />
+    <FlashMessage v-if="success" :messages="['User logged in successfully!']" type="success" />
     <form class="w-full md:w-1/2 lg:w-1/3 p-4 rounded-lg shadow-md bg-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
       <h2 class="text-lg font-semibold mb-4">Create User</h2>
       <div class="mb-4">
@@ -58,25 +60,16 @@
         Create User
       </button>
     </form>
-    <div v-if="errors.length > 0">
-      <ul class="text-red-500">
-<!--        <li v-for="error in errors" :key="error">-->
-<!--          {{ error }}-->
-<!--        </li>-->
-        {{ errors }}
-      </ul>
-    </div>
-    <div v-if="success">
-      <p class="text-green-500">User created successfully!</p>
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import FlashMessage from "../components/FlashMessage.vue";
 import { ref, reactive } from "vue";
 import { is400ErrorResponse, HttpResponse } from "../../repository/repository";
-import { User, useUserRepository } from "../../repository/user_repository";
-const { create: createUser } = useUserRepository();
+import { User } from "../../repository/user_repository";
+import { useAuthRepository } from "../../repository/auth_repository";
+const { signup } = useAuthRepository();
 const success = ref<boolean>(false);
 const user = reactive<Omit<User, 'id'>>({
   name: "",
@@ -86,7 +79,7 @@ const user = reactive<Omit<User, 'id'>>({
 const errors = ref<string[]>([]);
 const submitUser = async () => {
   try {
-    const userResponse = await createUser(user as User);
+    const userResponse = await signup(user as User);
     const res = userResponse as HttpResponse;
 
     if (is400ErrorResponse(res)) {
