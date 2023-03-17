@@ -17,7 +17,7 @@ export interface HttpResponse {
 }
 
 export const is400ErrorResponse = (res: HttpResponse): boolean => {
-    return 'error' in res && res.statusCode === 400;
+    return 'error' in res && res.statusCode > 400;
 }
 export interface Repository<T extends Entity> {
     index:() => Promise<T[]>;

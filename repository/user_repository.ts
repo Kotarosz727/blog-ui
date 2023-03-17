@@ -1,6 +1,7 @@
 import {Entity, Repository, HttpResponse, Id} from "./repository";
 
 const url = 'http://localhost:3000/users';
+const signupUrl = 'http://localhost:3000/auth/signup';
 export interface User extends Entity {
     name: string;
     age: number;
@@ -18,7 +19,7 @@ export const useUserRepository = <T extends User>(): Repository<T> => {
     };
 
     const create = async (payload: User): Promise<User> => {
-        const response = await fetch((url), {
+        const response = await fetch((signupUrl), {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(payload)

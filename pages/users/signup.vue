@@ -38,6 +38,18 @@
             placeholder="Enter phone number"
         />
       </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 font-bold mb-2" for="password">
+          password
+        </label>
+        <input
+            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:shadow-outline-blue"
+            id="password"
+            type="password"
+            v-model="user.password"
+            placeholder="Enter Password"
+        />
+      </div>
       <button
           class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue"
           type="submit"
@@ -48,13 +60,14 @@
     </form>
     <div v-if="errors.length > 0">
       <ul class="text-red-500">
-        <li v-for="error in errors" :key="error">
-          {{ error }}
-        </li>
+<!--        <li v-for="error in errors" :key="error">-->
+<!--          {{ error }}-->
+<!--        </li>-->
+        {{ errors }}
       </ul>
     </div>
     <div v-if="success">
-      <p class="text-green-500 bg-blue-600">User created successfully!</p>
+      <p class="text-green-500">User created successfully!</p>
     </div>
   </div>
 </template>
@@ -67,7 +80,7 @@ const { create: createUser } = useUserRepository();
 const success = ref<boolean>(false);
 const user = reactive<Omit<User, 'id'>>({
   name: "",
-  age: 10,
+  age: null,
   phoneNumber: "",
 });
 const errors = ref<string[]>([]);
@@ -78,6 +91,8 @@ const submitUser = async () => {
 
     if (is400ErrorResponse(res)) {
       errors.value = res.message;
+      console.error('error', res.message);
+      return;
     }
 
     success.value = true;
