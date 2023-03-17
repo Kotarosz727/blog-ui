@@ -10,8 +10,12 @@ export interface LoginResponse {
     token: string;
 }
 
+interface AuthUser extends User {
+    password: string;
+}
+
 export const useAuthRepository = () => {
-    const signup = async (payload: User): Promise<User> => {
+    const signup = async (payload: AuthUser): Promise<User> => {
         const signupUrl = `${url}/signup`;
         const response = await fetch((signupUrl), {
             method: 'POST',

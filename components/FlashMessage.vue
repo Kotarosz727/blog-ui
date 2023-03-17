@@ -1,4 +1,3 @@
-<!-- components/FlashMessage.vue -->
 <template>
   <transition
       name="fade"
@@ -29,17 +28,17 @@
   </transition>
 </template>
 
-<script>
-export default {
-  props: {
-    messages: {
-      type: Array,
-      default: () => [],
-    },
-    type: {
-      type: String,
-      default: 'error',
-    },
+<script setup>
+import { defineProps } from 'vue';
+
+const props = defineProps({
+  messages: {
+    type: Array,
+    default: () => [],
   },
-};
+  type: {
+    type: String,
+    default: 'error',
+  },
+});
 </script>
